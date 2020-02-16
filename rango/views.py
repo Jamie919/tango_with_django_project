@@ -8,12 +8,11 @@ from rango.forms import PageForm
 from django.shortcuts import redirect
 from django.urls import reverse
 from rango.forms import UserForm, UserProfileForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
 
 def index(request):
 
@@ -53,6 +52,8 @@ def show_category(request, category_name_slug):
         context_dict['pages'] = None
     return render(request, 'rango/category.html', context=context_dict)
 
+
+@login_required
 def add_category(request):
     form = CategoryForm()
     if request.method == 'POST':
@@ -69,6 +70,8 @@ def add_category(request):
 # Will handle the bad form, new form, or no form supplied cases. # Render the form with error messages (if any).
     return render(request, 'rango/add_category.html', {'form': form})
 
+
+@login_required
 def add_page(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
@@ -184,9 +187,10 @@ def user_login(request):
 
 @login_required
 def restricted(request):
-    return HttpResponse("Since you're logged in, you can see this text!")
+    # return HttpResponse("Since you're logged in, you can see this text!")
+    return render(request, 'rango/restricted.html')
 
-
+    # return redirect(reverse('rango:restricted'))
 
 # Use the login_required() decorator to ensure only those logged in can # access the view.
 @login_required
