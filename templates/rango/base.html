@@ -25,8 +25,10 @@
             {% if user.is_authenticated %}
                 <!-- Show these links when the user is logged in -->
                 <li><a href="{% url 'rango:restricted' %}">Restricted Page</a></li>
+
                 <li><a href="{% url 'rango:logout' %}">Logout</a></li>
                 <li><a href="{% url 'rango:add_category' %}">Add A New Category</a></li>
+
             {% else %}
                 <!-- Show these links when the user is NOT logged in -->
                 <li><a href="{% url 'rango:register' %}">Sign Up</a></li>
